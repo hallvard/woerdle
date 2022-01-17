@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<keyboard name="Norwegian">
+    <row>
+        <keys>
+            <key chars="Q"/>
+            <key chars="W"/>
+            <key chars="E"/>
+            <key chars="R"/>
+            <key chars="T"/>
+            <key chars="Y"/>
+            <key chars="U"/>
+            <key chars="I"/>
+            <key chars="O"/>
+            <key chars="P"/>
+            <key chars="Å"/>
+            <special type="BACKSPACE" alignment="BOTTOM_RIGHT" cols="6"/>
+        </keys>
+    </row>
+    <row>
+        <keys>
+            <key chars="A"/>
+            <key chars="S"/>
+            <key chars="D"/>
+            <key chars="F"/>
+            <key chars="G"/>
+            <key chars="H"/>
+            <key chars="J"/>
+            <key chars="K"/>
+            <key chars="L"/>
+            <key chars="Ø"/>
+            <key chars="Æ"/>
+            <special type="ENTER" alignment="BOTTOM_RIGHT" cols="7"/>
+        </keys>
+    </row>
+    <row>
+        <keys>
+            <key chars="Z"/>
+            <key chars="X"/>
+            <key chars="C"/>
+            <key chars="V"/>
+            <key chars="B"/>
+            <key chars="N"/>
+            <key chars="M"/>
+            <special type="LEFT" alignment="BOTTOM_RIGHT" cols="7"/>
+            <special type="RIGHT" alignment="BOTTOM_RIGHT" cols="7"/>
+        </keys>
+    </row>
+</keyboard>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import com.dlsc.keyboardfx.KeyboardView?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.hal.woerdle.fxui.WoerdleController"
+    alignment="CENTER">
+    <HBox>
+      <fx:include fx:id="woerdleConfigView" source="WoerdleConfig.fxml"/>
+      <Button text="!" onAction="#handleNewGame"/>
+    </HBox>
+    <GridPane fx:id="charSlotsGrid"
+        alignment="CENTER" hgap="2.0" vgap="4.0"/>
+    <KeyboardView fx:id="keyboardView"/>
+</VBox>

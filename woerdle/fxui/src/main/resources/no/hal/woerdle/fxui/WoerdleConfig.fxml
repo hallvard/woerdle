@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.Integer?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Spinner?>
+<?import com.dlsc.keyboardfx.KeyboardView?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.hal.woerdle.fxui.WoerdleConfigController"
+    alignment="CENTER">
+    <fx:define>
+      <Integer fx:id="wordLengthSpinnerMin" fx:value="1"/>
+      <Integer fx:id="wordLengthSpinnerValue" fx:value="5"/>
+      <Integer fx:id="wordLengthSpinnerMax" fx:value="20"/>
+
+      <Integer fx:id="attemptCountSpinnerMin" fx:value="1"/>
+      <Integer fx:id="attemptCountSpinnerValue" fx:value="6"/>
+      <Integer fx:id="attemptCountSpinnerMax" fx:value="10"/>
+    </fx:define>
+    <HBox alignment="CENTER">
+        <Spinner fx:id="wordLengthSpinner"
+            min="$wordLengthSpinnerMin"
+            max="$wordLengthSpinnerMax"
+            onValueChange="#handleWordLengthSpinnerChange"/>
+        <Spinner fx:id="attemptCountSpinner"
+            min="$attemptCountSpinnerMin"
+            max="$attemptCountSpinnerMax"
+            onValueChange="#handleAttemptCountSpinnerChange"/>
+    </HBox>
+</VBox>

@@ -1,0 +1,24 @@
+.char-slot-node {
+  -fx-font: 40px Arial;
+}
+
+.char-slot-kind-none {
+  -fx-background-color: white;
+}
+
+.char-slot-kind-correct {
+  -fx-background-color: green !important;
+}
+
+.char-slot-kind-misplaced {
+  -fx-background-color: orange !important;
+}
+
+.char-slot-kind-wrong {
+  -fx-background-color: grey !important;
+}
+
+.char-slot-attempt-illegal-word {
+    -fx-background-color: red !important;
+    -fx-font-style: italic;
+}
