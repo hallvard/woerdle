@@ -2,7 +2,8 @@ package no.hal.woerdle.fxui;
 
 import com.dlsc.keyboardfx.Keyboard;
 import com.dlsc.keyboardfx.KeyboardView;
-
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,12 +12,12 @@ import java.util.Random;
 import java.util.function.BiFunction;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import javax.xml.bind.JAXBException;
 import no.hal.woerdle.core.Woerdle;
-import no.hal.woerdle.core.WoerdleConfig;
 import no.hal.woerdle.core.Woerdle.CharSlotKind;
+import no.hal.woerdle.core.WoerdleConfig;
 import no.hal.woerdle.dict.Dict;
 import no.hal.woerdle.dict.ResourceDicts;
 
@@ -68,10 +69,10 @@ public class WoerdleController {
     charSlotsGrid.setOnKeyTyped(ev -> handleCharSlotKey(ev));
     charSlotsGrid.setOnKeyPressed(ev -> handleCharSlotKey(ev));
 
-    try {
-      keyboard = keyboardView.loadKeyboard(getClass().getResourceAsStream("keyboard-NB.xml"));
+    try (InputStream input = getClass().getResourceAsStream("keyboard-NB.xml")) {
+      keyboard = keyboardView.loadKeyboard(input);
       applyKeyboard();
-    } catch (Exception e) {
+    } catch (IOException | JAXBException e) {
       // ignore
     }
     newGame();
@@ -86,17 +87,17 @@ public class WoerdleController {
     newGame(woerdleConfigViewController.getConfig());
   }
   
-  @FXML
-  private void handleNewGame() {
-    newGame();
-  }
-
   private void newGame(WoerdleConfig config) {
     this.woerdle = new Woerdle(config);
     woerdle.start(randomWordProvider.apply(dict, config.wordLength()));
     clearCurrentAttempt();
     initializeCharSlotsGrid();
     Platform.runLater(charSlotsGrid::requestFocus);
+  }
+  
+  @FXML
+  private void handleNewGame() {
+    newGame();
   }
 
   private void initializeCharSlotsGrid() {
@@ -146,7 +147,8 @@ public class WoerdleController {
       }
       node.setSelected(woerdle.isPlaying()
           && rowNum == woerdle.getAttemptCount() && colNum == currentAttemptPos);
-      node.setExtraStyleClasses(rowNum == woerdle.getAttemptCount() && illegalAttempt ? List.of("char-slot-attempt-illegal-word") : null);
+      node.setExtraStyleClasses(rowNum == woerdle.getAttemptCount() && illegalAttempt
+          ? List.of("char-slot-attempt-illegal-word") : null);
     }
     updateKeyboardColors(charKinds);
   }
@@ -202,6 +204,7 @@ public class WoerdleController {
         case ENTER -> handleAttempt();
         case LEFT -> handleMoveAttemptPos(-1);
         case RIGHT -> handleMoveAttemptPos(1);
+        default -> { }
       }
     }
   }
@@ -228,6 +231,11 @@ public class WoerdleController {
     }
   }
 
+  /**
+   * Handles (relative) movement of attempt cursor position.
+   *
+   * @param delta the relative movement
+   */
   public void handleMoveAttemptPos(int delta) {
     int newPos = currentAttemptPos + delta;
     if (newPos >= 0 && newPos <= currentAttempt.length()) {
@@ -235,6 +243,7 @@ public class WoerdleController {
       updateCharSlotsGrid();
     }
   }
+
   /**
    * Handles attempting the current attempt.
    */

@@ -15,22 +15,23 @@ public class WoerdleConfigController {
   private Callback<WoerdleConfig, Void> configCallback = null;
 
   public WoerdleConfig getConfig() {
-      return config;
+    return config;
   }
 
   private void setConfig(WoerdleConfig config) {
-      this.config = config;
-      if (configCallback != null) {
-        configCallback.call(getConfig());
-      }
+    this.config = config;
+    if (configCallback != null) {
+      configCallback.call(getConfig());
+    }
   }
 
   private void updateConfig() {
-    setConfig(new WoerdleConfig(wordLengthSpinner.getValue(), attemptCountSpinner.getValue(), null));
+    setConfig(new WoerdleConfig(wordLengthSpinner.getValue(), attemptCountSpinner.getValue(),
+        null));
   }
 
   public void setConfigCallback(Callback<WoerdleConfig, Void> configCallback) {
-      this.configCallback = configCallback;
+    this.configCallback = configCallback;
   }
   
   @FXML

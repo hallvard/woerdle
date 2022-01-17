@@ -28,14 +28,33 @@ public interface Dict {
    */
   String getRandomWord(int charCount, Function<Integer, Integer> random);
 
+  /**
+   * Creates a dictionary with the provided words.
+   *
+   * @param words words separated by whitespace
+   * @return the new dictionary
+   */
   public static Dict of(String words) {
     return of(words, "\\s+");
   }
 
-  public static Dict of(String words, String delimiter) {
-    return of(Arrays.asList(words.split(delimiter)));
+  /**
+   * Creates a dictionary with the provided words.
+   *
+   * @param words words separated by separator (regexp)
+   * @param separator the separator
+   * @return the new dictionary
+   */
+  public static Dict of(String words, String separator) {
+    return of(Arrays.asList(words.split(separator)));
   }
 
+  /**
+   * Creates a dictionary with the provided words.
+   *
+   * @param words the words
+   * @return the new dictionary
+   */
   public static Dict of(Collection<String> words) {
     return new InputStreamDict() {
       @Override

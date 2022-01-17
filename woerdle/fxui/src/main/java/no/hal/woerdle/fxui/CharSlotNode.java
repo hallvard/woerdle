@@ -118,6 +118,11 @@ public class CharSlotNode extends Label {
     getStyleClass().addAll(List.of(CHAR_SLOT_NODE_STYLE_CLASS, charSlotKindStyleClass));
   }
 
+  /**
+   * Gets the css style class used for the provided kind.
+   *
+   * @return the css style class used for kind
+   */
   public static String getCharSlotKindStyleClass(CharSlotKind kind) {
     return switch (kind) {
       case MISPLACED -> "char-slot-kind-misplaced";

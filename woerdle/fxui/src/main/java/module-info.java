@@ -9,8 +9,10 @@ module no.hal.woerdle.fxui {
 
     requires com.dlsc.keyboardfx;
     requires java.xml.bind;
+    requires jakarta.activation;
 
-    requires no.hal.woerdle.core;
+    requires transitive no.hal.woerdle.core;
 
     opens no.hal.woerdle.fxui to javafx.graphics, javafx.fxml;
+    exports no.hal.woerdle.fxui;
 }
