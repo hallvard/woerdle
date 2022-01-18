@@ -27,7 +27,6 @@ import no.hal.woerdle.core.Woerdle.CharSlotKind;
 import no.hal.woerdle.core.WoerdleConfig;
 import no.hal.woerdle.dict.Dict;
 import no.hal.woerdle.dict.ResourceDict;
-import no.hal.woerdle.dict.ResourceDicts;
 import no.hal.woerdle.fxui.util.DictLabelsSupport;
 
 /**

@@ -6,16 +6,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import no.hal.woerdle.dict.Dict;
-import no.hal.woerdle.dict.ResourceDicts;
-
 public class ResourceDictTest {
     
     private static Dict dict;
 
     @BeforeAll
     public static void initDict() {
-        dict = ResourceDicts.NB.getDict();
+        dict = new ResourceDict("/no/hal/woerdle/dict/NSF2021.txt");
     }
 
     @Test

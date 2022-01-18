@@ -22,7 +22,7 @@ public class WoerdleAppTest extends ApplicationTest {
 
   @Override
   public void start(final Stage stage) throws Exception {
-    final FXMLLoader loader = new FXMLLoader(getClass().getResource("GjetordApp.fxml"));
+    final FXMLLoader loader = new FXMLLoader(getClass().getResource("WoerdleApp.fxml"));
     final Parent root = loader.load();
     this.controller = loader.getController();
     stage.setScene(new Scene(root));

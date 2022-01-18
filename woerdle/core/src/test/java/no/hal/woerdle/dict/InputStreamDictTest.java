@@ -11,10 +11,6 @@ import java.util.function.Function;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import no.hal.woerdle.dict.Dict;
-import no.hal.woerdle.dict.InputStreamDict;
-
 public class InputStreamDictTest {
     
     private static Dict dict;
