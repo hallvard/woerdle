@@ -4,13 +4,24 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.Button?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Tooltip?>
 <?import com.dlsc.keyboardfx.KeyboardView?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.hal.woerdle.fxui.WoerdleController"
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+    fx:id="rootPane"
+    fx:controller="no.hal.woerdle.fxui.WoerdleController"
     alignment="CENTER">
-    <HBox>
-      <fx:include fx:id="woerdleConfigView" source="WoerdleConfig.fxml"/>
-      <Button text="!" onAction="#handleNewGame"/>
+    <HBox alignment="CENTER">
+      <Button fx:id="newGameButton" text="!" onAction="#handleNewGame"/>
+      <Button onAction="#handleSettingsAction">
+          <graphic>
+              <FontAwesomeIconView glyphName="COG" size="18px" glyphStyle="-fx-fill: gray" />
+          </graphic>
+          <tooltip>
+              <Tooltip text="Settings"/>
+          </tooltip>
+      </Button>
     </HBox>
     <GridPane fx:id="charSlotsGrid"
         alignment="CENTER" hgap="2.0" vgap="4.0"/>

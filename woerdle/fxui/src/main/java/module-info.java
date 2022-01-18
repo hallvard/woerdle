@@ -14,5 +14,5 @@ module no.hal.woerdle.fxui {
     requires transitive no.hal.woerdle.core;
 
     opens no.hal.woerdle.fxui to javafx.graphics, javafx.fxml;
-    exports no.hal.woerdle.fxui;
+    opens no.hal.woerdle.fxui.util to javafx.graphics, javafx.fxml;
 }

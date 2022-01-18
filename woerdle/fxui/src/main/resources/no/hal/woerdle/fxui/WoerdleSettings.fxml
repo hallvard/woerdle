@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.Integer?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.Button?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+    alignment="CENTER">
+    <fx:define>
+      <Integer fx:id="wordLengthSpinnerMin" fx:value="1"/>
+      <Integer fx:id="wordLengthSpinnerValue" fx:value="5"/>
+      <Integer fx:id="wordLengthSpinnerMax" fx:value="20"/>
+
+      <Integer fx:id="attemptCountSpinnerMin" fx:value="1"/>
+      <Integer fx:id="attemptCountSpinnerValue" fx:value="6"/>
+      <Integer fx:id="attemptCountSpinnerMax" fx:value="10"/>
+    </fx:define>
+    <GridPane alignment="CENTER" hgap="10" vgap="10">
+        <Label fx:id="langLabel" text="Language"
+            GridPane.columnIndex="0" GridPane.rowIndex="0"
+        />
+        <ChoiceBox fx:id="langSelector"
+            onAction="#handleLangSelectorAction"
+            GridPane.columnIndex="1" GridPane.rowIndex="0"
+        />
+
+        <Label fx:id="dictLabel" text="Dictionary"
+            GridPane.columnIndex="0" GridPane.rowIndex="1"
+        />
+        <ComboBox fx:id="dictSelector"
+            onAction="#handleDictSelectorAction"
+            GridPane.columnIndex="1" GridPane.rowIndex="1"
+        />
+
+        <Label fx:id="wordLengthLabel" text="Word length"
+            GridPane.columnIndex="0" GridPane.rowIndex="2"
+        />
+        <Spinner fx:id="wordLengthSpinner"
+            min="$wordLengthSpinnerMin"
+            max="$wordLengthSpinnerMax"
+            GridPane.columnIndex="1" GridPane.rowIndex="2"
+            />
+
+        <Label fx:id="attemptCountSLabel" text="Attempt count"
+            GridPane.columnIndex="0" GridPane.rowIndex="3"
+        />
+        <Spinner fx:id="attemptCountSpinner"
+            min="$attemptCountSpinnerMin"
+            max="$attemptCountSpinnerMax"
+            GridPane.columnIndex="1" GridPane.rowIndex="3"
+        />
+    </GridPane>
+    <HBox>
+        <Button fx:id="settingsCancelButton" text="Cancel" onAction="#handleCancelAction"/>
+        <Button fx:id="settingsApplyButton" text="Apply" onAction="#handleApplyAction"/>
+    </HBox>
+</VBox>

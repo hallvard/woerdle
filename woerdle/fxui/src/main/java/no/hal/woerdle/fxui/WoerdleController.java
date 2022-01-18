@@ -4,14 +4,21 @@ import com.dlsc.keyboardfx.Keyboard;
 import com.dlsc.keyboardfx.KeyboardView;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Random;
 import java.util.function.BiFunction;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Labeled;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javax.xml.bind.JAXBException;
@@ -19,15 +26,24 @@ import no.hal.woerdle.core.Woerdle;
 import no.hal.woerdle.core.Woerdle.CharSlotKind;
 import no.hal.woerdle.core.WoerdleConfig;
 import no.hal.woerdle.dict.Dict;
+import no.hal.woerdle.dict.ResourceDict;
 import no.hal.woerdle.dict.ResourceDicts;
+import no.hal.woerdle.fxui.util.DictLabelsSupport;
 
 /**
  * Controller for Woerdle.
  */
-public class WoerdleController {
+public class WoerdleController implements DictLabelsSupport {
 
   private Woerdle woerdle;
-  private Dict dict = ResourceDicts.NB.getDict();
+
+  private WoerdleSettingsController configViewController = new WoerdleSettingsController();
+  
+  private WoerdleAppSettings settings = new WoerdleAppSettings();
+
+  public WoerdleConfig getConfig() {
+    return settings.getConfig();
+  }
 
   private StringBuilder currentAttempt;
   private int currentAttemptPos = 0;
@@ -43,10 +59,13 @@ public class WoerdleController {
   }
 
   @FXML
-  private WoerdleConfigController woerdleConfigViewController;
-  
-  public WoerdleConfig getConfig() {
-    return woerdleConfigViewController.getConfig();
+  private Parent rootPane;
+
+  @FXML private Labeled newGameButton;
+
+  @Override
+  public void applyLabels(Properties labels) {
+    DictLabelsSupport.applyLabels(labels, newGameButton);
   }
 
   @FXML
@@ -61,6 +80,13 @@ public class WoerdleController {
 
   @FXML
   private void initialize() {
+    settings.setLang("NB");
+    settings.setDictName("NB");
+    settings.setConfig(new WoerdleConfig(5, 6, configViewController.getDictForName(settings.getDictName())));
+
+    configViewController.setSettings(settings);
+
+    updateKeyboardAndLabels();
     Platform.runLater(() -> {
       String css = this.getClass().getResource("WoerdleApp.css").toExternalForm();
       charSlotsGrid.getScene().getStylesheets().add(css);
@@ -68,14 +94,46 @@ public class WoerdleController {
     });
     charSlotsGrid.setOnKeyTyped(ev -> handleCharSlotKey(ev));
     charSlotsGrid.setOnKeyPressed(ev -> handleCharSlotKey(ev));
+    newGame();
+  }
 
-    try (InputStream input = getClass().getResourceAsStream("keyboard-NB.xml")) {
-      keyboard = keyboardView.loadKeyboard(input);
-      applyKeyboard();
-    } catch (IOException | JAXBException e) {
+  private void updateKeyboardAndLabels() {
+    applyLabels(configViewController.getLabelProperties(settings.getLang()));
+    try (InputStream input = getClass().getResourceAsStream("keyboard-" + settings.getLang() + ".xml")) {
+      if (input != null) {
+        keyboard = keyboardView.loadKeyboard(input);
+        applyKeyboard();
+      }
+    } catch (IOException | JAXBException ex) {
       // ignore
     }
-    newGame();
+  }
+
+  private Parent configRoot = null;
+
+  @FXML
+  private void handleSettingsAction() {
+    if (configRoot == null) {
+      configViewController.setBackCallback(appliedSettings -> {
+        if (appliedSettings != null) {
+          settings = appliedSettings;
+          updateKeyboardAndLabels();
+        }
+        configRoot.getScene().setRoot(rootPane);
+        return null;
+      });
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("WoerdleSettings.fxml"));
+      loader.setController(configViewController);
+      try {
+        configRoot = loader.load();
+      } catch (IOException ioex) {
+        System.err.println("Couldn't load WoerdleSettings.fxml: " + ioex);
+      }
+    }
+    if (configRoot != null) {
+      configViewController.setSettings(settings);
+      rootPane.getScene().setRoot(configRoot);
+    }
   }
 
   private void applyKeyboard() {
@@ -84,12 +142,12 @@ public class WoerdleController {
   }
 
   private void newGame() {
-    newGame(woerdleConfigViewController.getConfig());
+    newGame(getConfig());
   }
   
   private void newGame(WoerdleConfig config) {
     this.woerdle = new Woerdle(config);
-    woerdle.start(randomWordProvider.apply(dict, config.wordLength()));
+    woerdle.start(randomWordProvider.apply(config.dict(), config.wordLength()));
     clearCurrentAttempt();
     initializeCharSlotsGrid();
     Platform.runLater(charSlotsGrid::requestFocus);
@@ -130,7 +188,7 @@ public class WoerdleController {
 
   private void updateCharSlotsGrid() {
     boolean illegalAttempt = (isCurrentAttemptComplete()
-        && (! dict.hasWord(currentAttempt.toString())));
+        && (! getConfig().dict().hasWord(currentAttempt.toString())));
     Map<Character, CharSlotKind> charKinds = new HashMap<>();
     for (int i = 0; i < charSlotNodes.size(); i++) {
       int rowNum = i / getConfig().wordLength();
@@ -250,7 +308,7 @@ public class WoerdleController {
   public void handleAttempt() {
     if (isCurrentAttemptComplete()) {
       String attempt = currentAttempt.toString(); 
-      if (dict.hasWord(attempt)) {
+      if (getConfig().dict().hasWord(attempt)) {
         woerdle.attempt(attempt);
         clearCurrentAttempt();
         updateCharSlotsGrid();

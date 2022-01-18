@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<keyboard name="Norwegian">
+<keyboard name="Norwegian woerdle">
     <row>
         <keys>
             <key chars="Q"/>
@@ -13,7 +13,6 @@
             <key chars="O"/>
             <key chars="P"/>
             <key chars="Å"/>
-            <special type="BACKSPACE" alignment="BOTTOM_RIGHT" cols="6"/>
         </keys>
     </row>
     <row>
@@ -29,11 +28,11 @@
             <key chars="L"/>
             <key chars="Ø"/>
             <key chars="Æ"/>
-            <special type="ENTER" alignment="BOTTOM_RIGHT" cols="7"/>
         </keys>
     </row>
     <row>
         <keys>
+            <special type="ENTER" alignment="BOTTOM_RIGHT" cols="7"/>
             <key chars="Z"/>
             <key chars="X"/>
             <key chars="C"/>
@@ -41,8 +40,11 @@
             <key chars="B"/>
             <key chars="N"/>
             <key chars="M"/>
+            <special type="BACKSPACE" alignment="BOTTOM_RIGHT" cols="6"/>
+            <!--
             <special type="LEFT" alignment="BOTTOM_RIGHT" cols="7"/>
             <special type="RIGHT" alignment="BOTTOM_RIGHT" cols="7"/>
+            -->
         </keys>
     </row>
 </keyboard>

@@ -16,5 +16,9 @@ public class ResourceDict extends InputStreamDict {
   @Override
   public InputStream getInputStream() {
     return this.getClass().getResourceAsStream(resource);
-  }  
+  }
+
+  public static Dict getResourceDict(String resource) {
+    return new ResourceDict(resource);
+  }
 }
